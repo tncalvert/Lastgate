@@ -17,4 +17,17 @@ public class Wizard : GameCharacter
     {
         // ????
     }
+
+    public void LearnSpell(Spell spell)
+    {
+        if (!KnowSpell(spell))
+            return;
+
+        Spells.Add(spell);
+    }
+
+    public bool KnowSpell(Spell spell)
+    {
+        return Spells.Contains(spell);
+    }
 }
