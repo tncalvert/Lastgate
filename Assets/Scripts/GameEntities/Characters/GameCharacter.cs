@@ -78,8 +78,18 @@ public class GameCharacter : MonoBehaviour {
     // Calculate the calculated stats based on the other stats
     public void updateStats()
     {
-        Health = (Constitution * 3) + (2 * Level);
-        ActionPoints = (Intelligence * 3) + (2 * Level);
+        float healthperc = Health / BaseHealth;
+        float apperc = ActionPoints / BaseActionPoints;
+        uint maxhdiff = MaxHealth - BaseHealth;
+        uint maxapdiff = MaxActionPoints - BaseActionPoints;
+
+        BaseHealth = (Constitution * 3) + (2 * Level);
+        Health = (uint)(BaseHealth * healthperc);
+        MaxHealth = BaseHealth + maxhdiff;
+        BaseActionPoints = (Intelligence * 3) + (2 * Level);
+        ActionPoints = (uint)(BaseActionPoints * apperc);
+        MaxActionPoints = BaseActionPoints + maxapdiff;
+
         ArmorPoints = 10 + (Armor != null ? Armor.ArmorValue : 0);
         BaseDamage = Strength + (Agility / 4);
         ItemLimit = System.Math.Min(50, Strength * 5);
@@ -288,6 +298,70 @@ public class GameCharacter : MonoBehaviour {
     public bool IsItemInInventory(GameItem item)
     {
         return Inventory.Contains(item);
+    }
+
+    //**********************
+    // Network
+    //**********************
+    [RPC]
+    void UpdateHealthAndAP(uint health, uint ap)
+    {
+        Health = health;
+        ActionPoints = ap;
+    }
+
+    [RPC]
+    void UpdateAllHealthAndAP(uint health, uint mhealth, uint bhealth, uint ap, uint map, uint bap)
+    {
+        BaseHealth = bhealth;
+        MaxHealth = mhealth;
+        Health = health;
+        BaseActionPoints = bap;
+        MaxActionPoints = map;
+        ActionPoints = ap;
+    }
+
+    [RPC]
+    void UpdateBaseStats(uint str, uint agil, uint con, uint intel)
+    {
+        Strength = str;
+        Agility = agil;
+        Constitution = con;
+        Intelligence = intel;
+    }
+
+    [RPC]
+    void UpdateXP(uint lvl, uint xp, uint xptnl)
+    {
+        Level = lvl;
+        Experience = xp;
+        ExperienceToNextLevel = xptnl;
+    }
+
+    [RPC]
+    void UpdateMiscStats(uint armorP, uint baseDam, uint itemL)
+    {
+        ArmorPoints = armorP;
+        BaseDamage = baseDam;
+        ItemLimit = itemL;
+    }
+
+    [RPC]
+    void UpdateWeaponAndArmor(string w, string a)
+    {
+        // Find a good way to do this
+    }
+
+    [RPC]
+    void UpdateInventory(string inv)
+    {
+        // Find a good way to do this
+    }
+
+    [RPC]
+    void UpdateType(string type)
+    {
+        Type = type;
     }
 
 }
