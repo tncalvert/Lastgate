@@ -181,9 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3caa889cc36d5d14d96f3b939f98951c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPlayer: {fileID: 0}
-  remotePlayer: {fileID: 0}
-  playerPrefab: {fileID: 0}
+  localPlayer: {fileID: 400000, guid: 1f582983f8cce3b45a80547f29f078a8, type: 2}
+  remotePlayer: {fileID: 400000, guid: 995e00d4a65c59f4fb04d8900dc6fcaf, type: 2}
 --- !u!4 &1671880878
 Transform:
   m_ObjectHideFlags: 0

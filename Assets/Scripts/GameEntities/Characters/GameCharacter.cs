@@ -102,16 +102,16 @@ public class GameCharacter : MonoBehaviour {
         foreach (var m in Modifiers.FindAll(x => x.Applied == false))
         {
             m.Applied = true;
-            fieldInfo = this.GetType().GetField(m.Field);
+            fieldInfo = gameObject.GetType().GetField(m.Field);
             if (fieldInfo == null)
                     continue;
             if (fieldInfo.FieldType == typeof(uint))
             {
-                fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) + m.uAmount);
+                fieldInfo.SetValue(gameObject, (uint)fieldInfo.GetValue(gameObject) + m.uAmount);
             }
             else if (fieldInfo.FieldType == typeof(float))
             {
-                fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) + m.fAmount);
+                fieldInfo.SetValue(gameObject, (float)fieldInfo.GetValue(gameObject) + m.fAmount);
             }
         }
 
@@ -120,16 +120,16 @@ public class GameCharacter : MonoBehaviour {
             m.Duration -= 1;
             if (m.Duration <= 0)
             {
-                fieldInfo = this.GetType().GetField(m.Field);
+                fieldInfo = gameObject.GetType().GetField(m.Field);
                 if (fieldInfo == null)
                     continue;
                 if (fieldInfo.FieldType == typeof(uint))
                 {
-                    fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) - m.uAmount);
+                    fieldInfo.SetValue(gameObject, (uint)fieldInfo.GetValue(gameObject) - m.uAmount);
                 }
                 else if (fieldInfo.FieldType == typeof(float))
                 {
-                    fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) - m.fAmount);
+                    fieldInfo.SetValue(gameObject, (float)fieldInfo.GetValue(gameObject) - m.fAmount);
                 }
 
                 RemoveModifier(m);

@@ -11,10 +11,12 @@ public class NetworkManager : MonoBehaviour
 
 	public Transform localPlayer;
 	public Transform remotePlayer;
-    public GameObject playerPrefab;
 
     // Use this for initialization
-    void Start() { }
+    void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Update is called once per frame
     void Update() { }
