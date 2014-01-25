@@ -139,25 +139,25 @@ public class GenerateDungeon : MonoBehaviour {
 
     private void SetPerimeters(int height, int width, ref uint[,] theDungeonData)
     {
-        for (int i = 0; i < height; i++)
+        for (int i = 0; i < height; i++) //for all cells
         {
             for (int j = 0; j < width; j++)
             {
-                if ((theDungeonData[i, j] & BLOCKED) != BLOCKED)
+                if ((theDungeonData[i, j] & BLOCKED) != BLOCKED) // if blocked ignore
                 {
-                    for (int ii = 0; ii < 3; ii++)
+                    for (int ii = 0; ii < 3; ii++) // check each neighbor
                     {
                         for (int jj = 0; jj < 3; jj++)
                         {
-                            if (((i - 1 + ii) >= 0) && ((i - 1 + ii) < height) && ((j - 1 + jj) >= 0) && ((j - 1 + jj) < width))
+                            if (((i - 1 + ii) >= 0) && ((i - 1 + ii) < height) && ((j - 1 + jj) >= 0) && ((j - 1 + jj) < width)) //must stay within bounds
                             {
                                 if ((theDungeonData[(i - 1 + ii), (j - 1 + jj)] & ROOM) == ROOM)
                                 {
                                     theDungeonData[i, j] = theDungeonData[i, j] | PERIMETER;
-                                    if ((ii == 1) ^ (jj == 1))
-                                    {
-                                        theDungeonData[i, j] = theDungeonData[i, j] | DOOR;
-                                    }
+                                    //if ((ii == 1) ^ (jj == 1))
+                                    //{
+                                    //    theDungeonData[i, j] = theDungeonData[i, j] | DOOR;
+                                    //}
                                 }
                                 if ((theDungeonData[(i - 1 + ii), (j - 1 + jj)] & STAIR_UP) == STAIR_UP)
                                 {
