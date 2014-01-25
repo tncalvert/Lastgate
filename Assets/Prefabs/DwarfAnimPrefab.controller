@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: DwarfPrefab
+  m_Name: DwarfAnimPrefab
   serializedVersion: 2
   m_AnimatorParameters:
   - m_Name: Attack
@@ -761,7 +761,7 @@ State:
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: d330a638963d86241ba233ba31f8a2ba, type: 2}
+  - {fileID: 7400000, guid: 8f4c9936c337c854fbca63e52f4b7262, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
   m_Position: {x: 540, y: 156, z: 0}
   m_IKOnFeet: 0
@@ -1023,9 +1023,6 @@ StateMachine:
       - {fileID: 110191055}
       - {fileID: 110102776}
       - {fileID: 110104961}
-    data:
-      first: {fileID: 0}
-      second: []
     data:
       first: {fileID: 110200000}
       second:
