@@ -22,20 +22,20 @@ public class Control : MonoBehaviour {
 
             
 
-			if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+			if (Input.GetKey(KeyCode.LeftArrow)) {
                 animator.SetInteger("Direction", 2);
-				transform.position += new Vector3 (-1, 0);
-			} else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+				transform.position += new Vector3 (-0.025f, 0f);
+			} else if (Input.GetKey(KeyCode.RightArrow)) {
                 animator.SetInteger("Direction", 0);
-				transform.position += new Vector3 (1, 0);
+				transform.position += new Vector3 (0.025f, 0f);
 			}
 
-			if (Input.GetKeyDown ("up")) {
+			if (Input.GetKey ("up")) {
                 animator.SetInteger("Direction", 1);
-				transform.position += new Vector3 (0, 1);
-			} else if (Input.GetKeyDown ("down")) {
+				transform.position += new Vector3 (0f, 0.025f);
+			} else if (Input.GetKey ("down")) {
                 animator.SetInteger("Direction", 3);
-				transform.position += new Vector3 (0, -1);
+				transform.position += new Vector3 (0f, -0.025f);
 			}
 
             if (Input.GetKeyDown(KeyCode.LeftArrow) ||
