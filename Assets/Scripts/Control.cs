@@ -11,7 +11,7 @@ public class Control : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (networkView.isMine) {
+		if (networkView.isMine || (!Network.isServer && !Network.isClient /* Not networked at all */)) {
 			if (Input.GetKey ("left")) {
 				transform.position += new Vector3 (-1, 0);
 			} else if (Input.GetKey ("right")) {

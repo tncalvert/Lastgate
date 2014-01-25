@@ -6,7 +6,7 @@ using System.Collections;
 /// </summary>
 public class GameItem : MonoBehaviour {
 
-    public GameItem()
+    public void init()
     {
         Name = "Generic Item";
         Type = "Game Item";

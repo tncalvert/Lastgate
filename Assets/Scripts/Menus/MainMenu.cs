@@ -27,9 +27,11 @@ public class MainMenu : MonoBehaviour {
     {
         if (screen == 0)
         {
-
+            if (Network.isServer)
+                GUI.enabled = false;
             if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50), "Play"))
                 screen = 1;
+            GUI.enabled = true;
 
             if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 35, 100, 50), "Start Server"))
                 screen = 2;
