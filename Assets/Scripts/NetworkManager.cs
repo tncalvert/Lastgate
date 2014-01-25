@@ -3,12 +3,14 @@ using System.Collections;
 
 public class NetworkManager : MonoBehaviour
 {
-
     private string gameName = "Lastgate World 1";
     private string typeName = "Lastgate";
     private int maxConnections = 25;
     private int port = 25000;
     private HostData[] hostList;
+
+	public Transform localPlayer;
+	public Transform remotePlayer;
 
     // Use this for initialization
     void Start() { }
@@ -76,6 +78,16 @@ public class NetworkManager : MonoBehaviour
             hostList = MasterServer.PollHostList();
     }
 
+	// Immediately destroy and remove RPC for network instantiated object
+	// (script attached to prefab)
+//	private void OnNetworkInstantiate(NetworkMessageInfo info) {
+//		Debug.Log(networkView.viewID + " spawned");
+//		if (Network.isServer) {
+//			Network.RemoveRPCs(networkView.viewID);
+//			Network.Destroy(gameObject);
+//		}
+//	}
+
     // joins a server
     private void JoinServer(HostData hostData)
     {
@@ -84,8 +96,17 @@ public class NetworkManager : MonoBehaviour
 
     // called on connection to server
     void OnConnectedToServer()
-    {
-        Debug.Log("Connected to Server");
+	{
+		Debug.Log("Connected to Server");
+
+		// Create character
+		Transform player = Network.Instantiate(localPlayer, new Vector3(0,0,0), Quaternion.identity, 0) as Transform;
+
+//		// Create others characters
+//		for (int i = 0; i < Network.connections.Length; i++) {
+//			Transform p = Network.Instantiate(localPlayer, new Vector3(0,0,0), Quaternion.identity, 0) as Transform; // change to remote player
+//			p.transform.position = new Vector3(i, 0, 0);
+//		}
     }
 
     // called when failed to connect
