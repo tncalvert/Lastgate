@@ -3,11 +3,11 @@ using System.Collections;
 
 public class NetworkManager : MonoBehaviour
 {
-    private string gameName = "Lastgate World 1";
-    private string typeName = "Lastgate";
+    //private string gameName = "Lastgate World 1";
+    //private string typeName = "Lastgate";
     private int maxConnections = 25;
     private int port = 25000;
-    private HostData[] hostList;
+    public HostData[] hostList;
 
 	public Transform localPlayer;
 	public Transform remotePlayer;
@@ -25,23 +25,23 @@ public class NetworkManager : MonoBehaviour
     // Supports launching a server and finding/connecting as a client
     void OnGUI()
     {
-        if (!Network.isClient && !Network.isServer)
-        {
-            if (GUI.Button(new Rect(50, 50, 100, 50), "Start Server"))
-                StartServer();
+        //if (!Network.isClient && !Network.isServer)
+        //{
+        //    if (GUI.Button(new Rect(50, 50, 100, 50), "Start Server"))
+        //        StartServer();
 
-            if (GUI.Button(new Rect(50, 110, 100, 50), "Refresh Hosts"))
-                RefreshHostList();
+        //    if (GUI.Button(new Rect(50, 110, 100, 50), "Refresh Hosts"))
+        //        RefreshHostList();
 
-            if (hostList != null)
-            {
-                for (int i = 0; i < hostList.Length; ++i)
-                {
-                    if (GUI.Button(new Rect(200, 50 + (60 * i), 500, 50), hostList[i].gameName + " " + hostList[i].gameType + " " + hostList[i].ip[0] + " " + hostList[i].useNat))
-                        JoinServer(hostList[i]);
-                }
-            }
-        }
+        //    if (hostList != null)
+        //    {
+        //        for (int i = 0; i < hostList.Length; ++i)
+        //        {
+        //            if (GUI.Button(new Rect(200, 50 + (60 * i), 500, 50), hostList[i].gameName + " " + hostList[i].gameType + " " + hostList[i].ip[0] + " " + hostList[i].useNat))
+        //                JoinServer(hostList[i]);
+        //        }
+        //    }
+        //}
     }
 
     // **********************************
@@ -51,10 +51,16 @@ public class NetworkManager : MonoBehaviour
     // Starts a server at
     // PORT: 25000
     // CONNECTIONS: 25
-    public void StartServer()
+    public void StartServer(string typeName, string gameName)
     {
         Network.InitializeServer(maxConnections, port, !Network.HavePublicAddress());
         MasterServer.RegisterHost(typeName, gameName);
+    }
+
+    public void StopServer()
+    {
+        Network.Disconnect();
+        MasterServer.UnregisterHost();
     }
 
     // Called when server is initialized
@@ -69,7 +75,7 @@ public class NetworkManager : MonoBehaviour
     //************************************
 
     // Gets updated host list
-    private void RefreshHostList()
+    public void RefreshHostList(string typeName)
     {
         MasterServer.RequestHostList(typeName);
     }
@@ -92,7 +98,7 @@ public class NetworkManager : MonoBehaviour
 //	}
 
     // joins a server
-    private void JoinServer(HostData hostData)
+    public void JoinServer(HostData hostData)
     {
         Network.Connect(hostData);
     }
