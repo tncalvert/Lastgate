@@ -109,7 +109,7 @@ public class NetworkManager : MonoBehaviour
 		Debug.Log("Connected to Server");
 
 		// Create character
-		Transform player = Network.Instantiate(localPlayer, new Vector3(0,0,0), Quaternion.identity, 0) as Transform;
+		Network.Instantiate(localPlayer, new Vector3(0,0,0), Quaternion.identity, 0);
 
 //		// Create others characters
 //		for (int i = 0; i < Network.connections.Length; i++) {
