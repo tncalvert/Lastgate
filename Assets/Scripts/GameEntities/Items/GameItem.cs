@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// Abstract implementation of items
 /// </summary>
-public class GameItem {
+public class GameItem : MonoBehaviour {
 
     public GameItem()
     {

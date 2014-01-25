@@ -8,7 +8,7 @@ using System.Reflection;
 /// of character
 /// All other classes for characters should be derived from this
 /// </summary>
-public class GameCharacter {
+public class GameCharacter : MonoBehaviour {
 
     public GameCharacter()
     {
