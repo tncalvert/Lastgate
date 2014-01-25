@@ -3,12 +3,14 @@ using System.Collections;
 
 public class NetworkManager : MonoBehaviour
 {
-
+    
     private string gameName = "Lastgate World 1";
     private string typeName = "Lastgate";
     private int maxConnections = 25;
     private int port = 25000;
     private HostData[] hostList;
+
+    public GameObject playerPrefab;
 
     // Use this for initialization
     void Start() { }
