@@ -3,8 +3,9 @@ using System.Collections;
 
 public class Armor : GameItem {
 
-    public Armor()
+    void Awake()
     {
+        init();
         ArmorValue = 1;
     }
 

@@ -3,8 +3,9 @@ using System.Collections;
 
 public class Weapon : GameItem {
 
-    public Weapon()
+    void Awake()
     {
+        init();
         Damage = 2;
         WeaponType = WeaponType.Light;
     }

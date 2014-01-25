@@ -10,38 +10,6 @@ using System.Reflection;
 /// </summary>
 public class GameCharacter : MonoBehaviour {
 
-    public GameCharacter()
-    {
-        // Defaults
-        Strength = 8;
-        Agility = 8;
-        Constitution = 8;
-        Intelligence = 8;
-
-        Level = 1;
-        Experience = 0;
-        ExperienceToNextLevel = 1000;
-
-        BaseHealth = 25;
-        MaxHealth = 25;
-        Health = 25;
-        MaxActionPoints = 25;
-        ActionPoints = 25;
-        ArmorPoints = 10;
-        BaseDamage = 5;
-        ItemLimit = 30;
-
-        Weapon = null;
-        Armor = null;
-
-        Inventory = new List<GameItem>();
-        Modifiers = new List<Modifier>();
-
-        Type = "GameCharacter";
-
-        updateStats();
-    }
-
     // Stats
     public uint Strength { get; set;}
     public uint Agility { get; set; }
@@ -69,10 +37,41 @@ public class GameCharacter : MonoBehaviour {
     public Armor Armor { get; set; }
 
     public List<GameItem> Inventory { get; set; }
-    public List<Modifier> Modifiers { get; set; }
 
     // Misc.
     public string Type { get; set; }
+
+    public void init()
+    {
+        // Defaults
+        Strength = 8;
+        Agility = 8;
+        Constitution = 8;
+        Intelligence = 8;
+
+        Level = 1;
+        Experience = 0;
+        ExperienceToNextLevel = 1000;
+
+        BaseHealth = 25;
+        MaxHealth = 25;
+        Health = 25;
+        BaseActionPoints = 25;
+        MaxActionPoints = 25;
+        ActionPoints = 25;
+        ArmorPoints = 10;
+        BaseDamage = 5;
+        ItemLimit = 30;
+
+        Weapon = null;
+        Armor = null;
+
+        Inventory = new List<GameItem>();
+
+        Type = "GameCharacter";
+
+        updateStats();
+    }
 
 
     // Calculate the calculated stats based on the other stats
@@ -93,48 +92,6 @@ public class GameCharacter : MonoBehaviour {
         ArmorPoints = 10 + (Armor != null ? Armor.ArmorValue : 0);
         BaseDamage = Strength + (Agility / 4);
         ItemLimit = System.Math.Min(50, Strength * 5);
-    }
-
-    // Updated fields based on the modifiers
-    public void updateModifiedStats()
-    {
-        FieldInfo fieldInfo;
-        foreach (var m in Modifiers.FindAll(x => x.Applied == false))
-        {
-            m.Applied = true;
-            fieldInfo = this.GetType().GetField(m.Field);
-            if (fieldInfo == null)
-                    continue;
-            if (fieldInfo.FieldType == typeof(uint))
-            {
-                fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) + m.uAmount);
-            }
-            else if (fieldInfo.FieldType == typeof(float))
-            {
-                fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) + m.fAmount);
-            }
-        }
-
-        foreach (var m in Modifiers)
-        {
-            m.Duration -= 1;
-            if (m.Duration <= 0)
-            {
-                fieldInfo = this.GetType().GetField(m.Field);
-                if (fieldInfo == null)
-                    continue;
-                if (fieldInfo.FieldType == typeof(uint))
-                {
-                    fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) - m.uAmount);
-                }
-                else if (fieldInfo.FieldType == typeof(float))
-                {
-                    fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) - m.fAmount);
-                }
-
-                RemoveModifier(m);
-            }
-        }
     }
 
     //**********************
@@ -174,30 +131,6 @@ public class GameCharacter : MonoBehaviour {
     public void RemoveActionPoints(uint amount)
     {
         ActionPoints = System.Math.Max(0, ActionPoints - amount);
-    }
-
-    //**********************
-    // Modifications
-    //**********************
-    public void AddModifier(Modifier mod)
-    {
-        Modifiers.Add(mod);
-    }
-
-    public bool RemoveModifier(Modifier mod)
-    {
-        if (!HasModifier(mod))
-        {
-            return false;
-        }
-
-        Modifiers.Remove(mod);
-        return true;
-    }
-
-    public bool HasModifier(Modifier mod)
-    {
-        return Modifiers.Contains(mod);
     }
 
     //**********************
