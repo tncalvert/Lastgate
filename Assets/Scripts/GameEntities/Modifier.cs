@@ -8,7 +8,6 @@ public class Modifier {
 
     public Modifier()
     {
-        Action = "Modify";
         Field = "None";
         uAmount = 0;
         fAmount = 0f;
@@ -16,7 +15,6 @@ public class Modifier {
         Applied = false;
     }
 
-    public string Action { get; set; } // "Modify" or "Set"
     public string Field { get; set; }  // Field that will change
     public uint uAmount { get; set; }  // Amount as either float or uint
     public float fAmount { get; set; }

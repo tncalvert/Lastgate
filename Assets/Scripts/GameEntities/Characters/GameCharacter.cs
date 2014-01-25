@@ -92,33 +92,16 @@ public class GameCharacter {
         foreach (var m in Modifiers.FindAll(x => x.Applied == false))
         {
             m.Applied = true;
-            if (m.Action == "Modify")
+            fieldInfo = this.GetType().GetField(m.Field);
+            if (fieldInfo == null)
+                    continue;
+            if (fieldInfo.FieldType == typeof(uint))
             {
-                fieldInfo = this.GetType().GetField(m.Field);
-                if (fieldInfo == null)
-                        continue;
-                if (fieldInfo.FieldType == typeof(uint))
-                {
-                    fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) + m.uAmount);
-                }
-                else if (fieldInfo.FieldType == typeof(float))
-                {
-                    fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) + m.fAmount);
-                }
+                fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) + m.uAmount);
             }
-            else
+            else if (fieldInfo.FieldType == typeof(float))
             {
-                fieldInfo = this.GetType().GetField(m.Field);
-                if (fieldInfo == null)
-                        continue;
-                if (fieldInfo.FieldType == typeof(uint))
-                {
-                    fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) + m.uAmount);
-                }
-                else if (fieldInfo.FieldType == typeof(float))
-                {
-                    fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) + m.fAmount);
-                }
+                fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) + m.fAmount);
             }
         }
 
@@ -127,33 +110,16 @@ public class GameCharacter {
             m.Duration -= 1;
             if (m.Duration <= 0)
             {
-                if (m.Action == "Modify")
+                fieldInfo = this.GetType().GetField(m.Field);
+                if (fieldInfo == null)
+                    continue;
+                if (fieldInfo.FieldType == typeof(uint))
                 {
-                    fieldInfo = this.GetType().GetField(m.Field);
-                    if (fieldInfo == null)
-                        continue;
-                    if (fieldInfo.FieldType == typeof(uint))
-                    {
-                        fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) - m.uAmount);
-                    }
-                    else if (fieldInfo.FieldType == typeof(float))
-                    {
-                        fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) - m.fAmount);
-                    }
+                    fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) - m.uAmount);
                 }
-                else
+                else if (fieldInfo.FieldType == typeof(float))
                 {
-                    fieldInfo = this.GetType().GetField(m.Field);
-                    if (fieldInfo == null)
-                        continue;
-                    if (fieldInfo.FieldType == typeof(uint))
-                    {
-                        fieldInfo.SetValue(this, (uint)fieldInfo.GetValue(this) - m.uAmount);
-                    }
-                    else if (fieldInfo.FieldType == typeof(float))
-                    {
-                        fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) - m.fAmount);
-                    }
+                    fieldInfo.SetValue(this, (float)fieldInfo.GetValue(this) - m.fAmount);
                 }
 
                 RemoveModifier(m);
