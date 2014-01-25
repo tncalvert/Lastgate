@@ -9,7 +9,7 @@ public class NetworkManager : MonoBehaviour {
     private int port = 25000;
 
 	// Use this for initialization
-    void Start() { startServer();  }
+    void Start() { startServer(); }
 	
 	// Update is called once per frame
 	void Update () {}
@@ -20,7 +20,7 @@ public class NetworkManager : MonoBehaviour {
         MasterServer.RegisterHost(typeName, gameName);
     }
 
-    void OnServerStart()
+    void OnServerInitialized()
     {
         Debug.Log("server up");
     }
