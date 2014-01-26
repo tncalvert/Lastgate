@@ -102,6 +102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3caa889cc36d5d14d96f3b939f98951c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dwarfPrefab: {fileID: 100000, guid: b16459bcbaef0104fad8645fce32ebaa, type: 2}
+  magePrefab: {fileID: 100000, guid: 45b3ba1d30c92ca4d9f05bd0fb012f18, type: 2}
+  spiderPrefab: {fileID: 100000, guid: 285d32c3b05eb37479620b02c8a00095, type: 2}
+  slimePrefab: {fileID: 100000, guid: 7dcc9e2072244b742a98a20fea4e25d0, type: 2}
+  fireballPrefab: {fileID: 100000, guid: 08f7844549aee004db3b809ac164e98f, type: 2}
   localPlayer: {fileID: 400000, guid: 1f582983f8cce3b45a80547f29f078a8, type: 2}
   remotePlayer: {fileID: 400000, guid: 995e00d4a65c59f4fb04d8900dc6fcaf, type: 2}
 --- !u!4 &1011348913
