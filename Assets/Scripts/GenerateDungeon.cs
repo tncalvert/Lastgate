@@ -3,6 +3,11 @@ using System.Collections;
 using System.IO;
 
 public class GenerateDungeon : MonoBehaviour {
+
+    public GameObject wall1Prefab;
+    public GameObject wall2Prefab;
+    public GameObject floorPrefab;
+
     // Define Dungeon Data Constants
     const uint NOTHING = 0x00000000;
 
@@ -108,8 +113,84 @@ public class GenerateDungeon : MonoBehaviour {
         debugTexture.Apply();
         File.WriteAllBytes(Application.dataPath + "/../SavedScreen.png", debugTexture.EncodeToPNG());
 
+        PlaceDungeon(theDungeonData, height, width);
+
         return;
 	}
+
+    private void PlaceDungeon(uint[,] theDungeonData, int height, int width)
+    {
+        // NOTES
+        // Walls are placed every 1x1
+        // Ground is 1x2 (two grounds for every 1 block)
+
+        int stairsx = 0, stairsy = 0;
+        bool outerbreak = false;
+
+        // Find the stairs, they are 0, 0
+        for (int i = 0; i < height; ++i)
+        {
+            for (int j = 0; j < width; ++j)
+            {
+                if ((theDungeonData[i, j] & STAIR_UP) == STAIR_UP)
+                {
+                    stairsx = j;
+                    stairsy = i;
+                    outerbreak = true;
+                    break;
+                }
+            }
+
+            if (outerbreak)
+                break;
+        }
+
+        float posx, posy;
+
+        // Now we can place stuff
+        for (int i = 0; i < height; ++i)
+        {
+            for (int j = 0; j < width; ++j)
+            {
+                if ((theDungeonData[i, j] & ROOM) == ROOM)
+                {
+                    posx = j - stairsx;
+                    posy = i - stairsy;
+                    Instantiate(floorPrefab, new Vector3(posx, posy, 5), Quaternion.identity);
+                    Instantiate(floorPrefab, new Vector3(posx, posy + 0.5f, 5), Quaternion.identity);
+                }
+                else if ((theDungeonData[i, j] & DOOR) == DOOR)
+                {
+                    posx = j - stairsx;
+                    posy = i - stairsy;
+                    Instantiate(floorPrefab, new Vector3(posx, posy, 5), Quaternion.identity);
+                    Instantiate(floorPrefab, new Vector3(posx, posy + 0.5f, 5), Quaternion.identity);
+                }
+                else if ((theDungeonData[i, j] & PERIMETER) == PERIMETER)
+                {
+                    GameObject prefab = Random.value < 0.5 ? wall1Prefab : wall2Prefab;
+                    posx = j - stairsx;
+                    posy = i - stairsy;
+                    Instantiate(prefab, new Vector3(posx, posy, 5), Quaternion.identity);
+                    
+                }
+                else if ((theDungeonData[i, j] & STAIR_UP) == STAIR_UP)
+                {
+                    posx = j - stairsx;
+                    posy = i - stairsy;
+                    Instantiate(floorPrefab, new Vector3(posx, posy, 5), Quaternion.identity);
+                    Instantiate(floorPrefab, new Vector3(posx, posy + 0.5f, 5), Quaternion.identity);
+                }
+                else if ((theDungeonData[i, j] & CORRIDOR) == CORRIDOR)
+                {
+                    posx = j - stairsx;
+                    posy = i - stairsy;
+                    Instantiate(floorPrefab, new Vector3(posx, posy, 5), Quaternion.identity);
+                    Instantiate(floorPrefab, new Vector3(posx, posy + 0.5f, 5), Quaternion.identity);
+                }
+            }
+        }
+    }
 
     private void PathToEntrance(int height, int width, ref uint[,] theDungeonData)
     {
@@ -134,7 +215,7 @@ public class GenerateDungeon : MonoBehaviour {
     private void FindPathToCorridor(int i, int j, int height, int width, uint[,] theDungeonData)
     {
         int ii = i;
-        while (((theDungeonData[ii, j] & BLOCKED) != BLOCKED) && (ii < height))
+        while ((ii < height) && (ii >= 0) && ((theDungeonData[ii, j] & BLOCKED) != BLOCKED))
         {
             theDungeonData[ii, j] = theDungeonData[ii, j] | CORRIDOR;
             ii--;
