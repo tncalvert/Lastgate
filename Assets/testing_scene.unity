@@ -205,9 +205,10 @@ GameObject:
   - 148: {fileID: 289129159}
   - 212: {fileID: 289129158}
   - 95: {fileID: 289129157}
+  - 114: {fileID: 289129161}
+  - 61: {fileID: 289129154}
   - 114: {fileID: 289129156}
   - 50: {fileID: 289129155}
-  - 61: {fileID: 289129154}
   m_Layer: 0
   m_Name: SpiderPrefab
   m_TagString: Untagged
@@ -225,7 +226,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .5, y: .5}
+  m_Size: {x: .25, y: .25}
   m_Center: {x: 0, y: 0}
 --- !u!50 &289129155
 Rigidbody2D:
@@ -246,13 +247,13 @@ Rigidbody2D:
 --- !u!114 &289129156
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 285d32c3b05eb37479620b02c8a00095,
+  m_PrefabParentObject: {fileID: 11400004, guid: 285d32c3b05eb37479620b02c8a00095,
     type: 2}
   m_PrefabInternal: {fileID: 1894940421}
   m_GameObject: {fileID: 289129153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f10178777a7f2b14f8258a19489805e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a7d666d2df90ca4c948bc1a2ff435f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!95 &289129157
@@ -318,6 +319,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &289129161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 285d32c3b05eb37479620b02c8a00095,
+    type: 2}
+  m_PrefabInternal: {fileID: 1894940421}
+  m_GameObject: {fileID: 289129153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69c01ce5f20ece419bacae76c8af1d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
 --- !u!1001 &410561319
 Prefab:
   m_ObjectHideFlags: 0
@@ -466,11 +480,11 @@ GameObject:
   - 114: {fileID: 1029424033}
   - 95: {fileID: 1029424032}
   - 212: {fileID: 1029424031}
-  - 50: {fileID: 1029424030}
   - 61: {fileID: 1029424029}
+  - 50: {fileID: 1029424030}
   m_Layer: 0
   m_Name: MagePrefab
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -494,7 +508,7 @@ Rigidbody2D:
     type: 2}
   m_PrefabInternal: {fileID: 410561319}
   m_GameObject: {fileID: 1029424028}
-  m_Mass: 1
+  m_Mass: 1e+06
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
   m_GravityScale: 0
@@ -554,6 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10178777a7f2b14f8258a19489805e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: {x: 50, y: 50}
 --- !u!148 &1029424034
 NetworkView:
   m_ObjectHideFlags: 0
@@ -630,11 +645,13 @@ GameObject:
   - 95: {fileID: 1542129382}
   - 212: {fileID: 1542129381}
   - 114: {fileID: 1542129380}
-  - 50: {fileID: 1542129378}
   - 61: {fileID: 1542129379}
+  - 114: {fileID: 1542129386}
+  - 114: {fileID: 1542129385}
+  - 50: {fileID: 1542129378}
   m_Layer: 0
   m_Name: DwarfPrefab
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -646,7 +663,7 @@ Rigidbody2D:
     type: 2}
   m_PrefabInternal: {fileID: 169939361}
   m_GameObject: {fileID: 1542129377}
-  m_Mass: 1
+  m_Mass: 1e+06
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
   m_GravityScale: 0
@@ -679,6 +696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10178777a7f2b14f8258a19489805e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: {x: 50, y: 50}
 --- !u!212 &1542129381
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -742,6 +760,30 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1542129385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: b16459bcbaef0104fad8645fce32ebaa,
+    type: 2}
+  m_PrefabInternal: {fileID: 169939361}
+  m_GameObject: {fileID: 1542129377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b58c045a36f3e14db70567d28c19255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1542129386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: b16459bcbaef0104fad8645fce32ebaa,
+    type: 2}
+  m_PrefabInternal: {fileID: 169939361}
+  m_GameObject: {fileID: 1542129377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd269d959a14d104d87756c8d62d19a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1545349923
 Prefab:
   m_ObjectHideFlags: 0

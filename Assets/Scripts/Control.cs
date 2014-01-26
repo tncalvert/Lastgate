@@ -97,10 +97,25 @@ public class Control : MonoBehaviour {
             {
                 animator.SetBool("Attack", false);
             }
+
+            int dir = animator.GetInteger("Direction");
+            int att = animator.GetBool("Attack") ? 1 : 0;
+            int mv = animator.GetBool("Moving") ? 1 : 0;
+
+            networkView.RPC("UpdateAnimations", RPCMode.Others, dir, att, mv);
             
 		}
 
 		// Send update to network
 	}
+
+    [RPC]
+    public void UpdateAnimations(int dir, int att, int mv)
+    {
+        
+        animator.SetBool("Attack", att == 1);
+        animator.SetBool("Moving", mv == 1);
+        animator.SetInteger("Direction", dir);
+    }
 
 }
