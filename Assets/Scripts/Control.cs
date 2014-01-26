@@ -71,25 +71,25 @@ public class Control : MonoBehaviour {
             if (Input.GetKeyUp(KeyCode.LeftArrow))
             {
                 Horizontal.RemoveAll(x => x == KeyCode.LeftArrow);
-                if(previousDirection != 2)
+                if(previousDirection != 2 && !(Horizontal.Count == 0 && Vertical.Count == 0))
                     animator.SetInteger("Direction", previousDirection);
             }
             if (Input.GetKeyUp(KeyCode.RightArrow))
             {
                 Horizontal.RemoveAll(x => x == KeyCode.RightArrow);
-                if (previousDirection != 0)
+                if (previousDirection != 0 && !(Horizontal.Count == 0 && Vertical.Count == 0))
                     animator.SetInteger("Direction", previousDirection);
             }
             if (Input.GetKeyUp(KeyCode.UpArrow))
             {
                 Vertical.RemoveAll(x => x == KeyCode.UpArrow);
-                if (previousDirection != 1)
+                if (previousDirection != 1 && !(Horizontal.Count == 0 && Vertical.Count == 0))
                     animator.SetInteger("Direction", previousDirection);
             }
             if (Input.GetKeyUp(KeyCode.DownArrow))
             {
                 Vertical.RemoveAll(x => x == KeyCode.DownArrow);
-                if (previousDirection != 3)
+                if (previousDirection != 3 && !(Horizontal.Count == 0 && Vertical.Count == 0))
                     animator.SetInteger("Direction", previousDirection);
             }
 
@@ -124,7 +124,8 @@ public class Control : MonoBehaviour {
             int att = animator.GetBool("Attack") ? 1 : 0;
             int mv = animator.GetBool("Moving") ? 1 : 0;
 
-            networkView.RPC("UpdateAnimations", RPCMode.Others, dir, att, mv);
+            if(Network.isClient)
+                networkView.RPC("UpdateAnimations", RPCMode.Others, dir, att, mv);
             
 		}
 
