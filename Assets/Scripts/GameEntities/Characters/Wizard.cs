@@ -8,6 +8,7 @@ public class Wizard : GameCharacter
     void Awake()
     {
         init();
+        Type = "Mage";
         Spells = new List<Spell>();
     }
 

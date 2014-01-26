@@ -99,7 +99,7 @@ public class GameCharacter : MonoBehaviour {
         MaxActionPoints = BaseActionPoints + maxapdiff;
 
         ArmorPoints = 10 + (Armor != null ? Armor.ArmorValue : 0);
-        BaseDamage = Strength + (Agility / 4);
+        BaseDamage = (Strength + (Agility / 4)) / 2;
         ItemLimit = System.Math.Min(50, Strength * 5);
     }
 
@@ -114,10 +114,15 @@ public class GameCharacter : MonoBehaviour {
 			GameCharacter victim = hit.gameObject.GetComponent<GameCharacter>();
 
 			if (victim == this) continue; // Don't attack yourself!
-			// TODO: Don't attack fellow players either... unless in PvP mode
+			
+            if ((Type == "Mage" || Type == "Dwarf") && (victim.Type == "Mage" || victim.Type == "Dwarf") /* TODO: add PvP flag */)
+                continue;
+
 			Debug.Log ("Hit! from " + this.Type);
-	
-			bool dead = victim.RemoveHealth(5); //TODO: Calculate actual damage!!!
+
+
+            uint damage = (uint)(BaseDamage + (Weapon != null ? Weapon.Damage : 0));
+			bool dead = victim.RemoveHealth(damage); //TODO: Refine damage calculation
 
 			if (dead) {
 				Kills++;
@@ -142,8 +147,7 @@ public class GameCharacter : MonoBehaviour {
             // DIE!!
 			GUI.Label(new Rect((float)Screen.width / 1.75f, (float)Screen.height / 1.75f, 200, 100), "YOU DIED (FIX THIS)");
 
-			// TODO: Change to Network.Destroy
-			Destroy(this.gameObject);
+			Network.Destroy(this.gameObject);
 			return true;
         }
 		return false;
