@@ -65,14 +65,11 @@ public class MainMenu : MonoBehaviour {
             
             if (!Network.isServer && !Network.isClient)
             {
-                GUIStyle style = new GUIStyle();
-                style.normal.textColor = Color.black;
-
-                GUI.Label(new Rect(Screen.width / 2 - 75, Screen.height / 4 + 35, 50, 25), "World Name", style);
-                gameName = GUI.TextField(new Rect(Screen.width / 2, Screen.height / 4 + 35, 200, 25), gameName);
+                GUI.Label(new Rect(Screen.width / 2 - 75, Screen.height / 4 + 90, 50, 25), "World Name");
+                gameName = GUI.TextField(new Rect(Screen.width / 2, Screen.height / 4 + 90, 200, 25), gameName);
 
 
-                if (GUI.Button(new Rect(Screen.width / 2 - 55, Screen.height / 4 + 75, 100, 50), "Create"))
+                if (GUI.Button(new Rect(Screen.width / 2 - 55, Screen.height / 4 + 130, 100, 50), "Create"))
                     networkManager.StartServer(gameName);
             }
             else if (Network.isServer)

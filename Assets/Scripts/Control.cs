@@ -112,10 +112,18 @@ public class Control : MonoBehaviour {
                 animator.SetBool("Moving", false);
 
 			if (Input.GetKey(KeyCode.Space)) {
-				this.gameObject.GetComponent<GameCharacter>().Attack();
+                Fighter f = this.gameObject.GetComponent<Fighter>();
+                Wizard w = this.gameObject.GetComponent<Wizard>();
+
+                if (f != null)
+                    f.Attack();
+                else if (w != null)
+                    w.Attack();
+                // Otherwise, I have no idea
 			}
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                Debug.Log("Space");
                 animator.SetBool("Attack", true);
             }
             else if (Input.GetKeyUp(KeyCode.Space))
