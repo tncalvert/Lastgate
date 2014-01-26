@@ -52,8 +52,8 @@ TextureImporter:
         y: 0
         width: 42
         height: 49
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .583379865, y: .517867148}
     - name: mage_north_walkcycle_1
       rect:
         serializedVersion: 2
@@ -61,8 +61,8 @@ TextureImporter:
         y: 0
         width: 42
         height: 49
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .588591278, y: .50000006}
     - name: mage_north_walkcycle_2
       rect:
         serializedVersion: 2
@@ -70,8 +70,8 @@ TextureImporter:
         y: 0
         width: 42
         height: 49
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .588591099, y: .508933604}
     - name: mage_north_walkcycle_3
       rect:
         serializedVersion: 2
@@ -79,7 +79,7 @@ TextureImporter:
         y: 0
         width: 42
         height: 49
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .599013567, y: .495533258}
   spritePackingTag: 
   userData: 

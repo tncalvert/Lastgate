@@ -52,8 +52,8 @@ TextureImporter:
         y: 0
         width: 43
         height: 49
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .422091067, y: .51823175}
     - name: mage_south_walkcycle_1
       rect:
         serializedVersion: 2
@@ -61,8 +61,8 @@ TextureImporter:
         y: 0
         width: 43
         height: 49
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .416897267, y: .513673842}
     - name: mage_south_walkcycle_2
       rect:
         serializedVersion: 2
@@ -70,8 +70,8 @@ TextureImporter:
         y: 0
         width: 43
         height: 49
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .427285135, y: .536463499}
     - name: mage_south_walkcycle_3
       rect:
         serializedVersion: 2
@@ -79,7 +79,7 @@ TextureImporter:
         y: 0
         width: 43
         height: 49
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .416897088, y: .504557967}
   spritePackingTag: 
   userData: 
