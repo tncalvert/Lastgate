@@ -23,6 +23,8 @@ public class GenerateDungeon : MonoBehaviour {
     const uint STAIR_DN = 0x00400000;
     const uint STAIR_UP = 0x00800000;
 
+    const uint CONNECTED = 0x00000008;
+
     const uint LABEL = 0xFF000000;
 
     const uint OPENSPACE = ROOM | CORRIDOR;
@@ -40,6 +42,7 @@ public class GenerateDungeon : MonoBehaviour {
     int CROSS_SHAPE_FACTOR = 5;
     int[] roomSizeTable = new int[10]{ 4, 6, 8, 10, 14, 18, 24, 30, 40, 50 };
     const int PERCENT_SPACE_ROOMS = 8;
+    const int DOOR_DENSITY = 3;
 
 	// Use this for initialization
 	void Start () {
@@ -68,6 +71,7 @@ public class GenerateDungeon : MonoBehaviour {
         PlaceRooms(roomSizeTable[roomSize], height, width, ref theDungeonData);
         PlaceStairs(height, width, ref theDungeonData);
         SetPerimeters(height, width, ref theDungeonData);
+        //PlaceDoors(height, width, ref theDungeonData);
 
         char[] debugString = new char[width];
         Texture2D debugTexture = new Texture2D(width, height);
@@ -84,26 +88,69 @@ public class GenerateDungeon : MonoBehaviour {
                 {
                     debugTexture.SetPixel(j, i, Color.blue);
                 }
-                else if ((theDungeonData[i, j] & PERIMETER) == PERIMETER)
-                {
-                    debugTexture.SetPixel(j, i, Color.red);
-                }
                 else if ((theDungeonData[i, j] & DOOR) == DOOR)
                 {
                     debugTexture.SetPixel(j, i, Color.green);
+                }
+                else if ((theDungeonData[i, j] & PERIMETER) == PERIMETER)
+                {
+                    debugTexture.SetPixel(j, i, Color.red);
                 }
                 else if ((theDungeonData[i, j] & STAIR_UP) == STAIR_UP)
                 {
                     debugTexture.SetPixel(j, i, Color.magenta);
                 }
             }
-            Debug.Log(new string(debugString));
+            //Debug.Log(new string(debugString));
         }
         debugTexture.Apply();
         File.WriteAllBytes(Application.dataPath + "/../SavedScreen.png", debugTexture.EncodeToPNG());
 
         return;
 	}
+
+    private void PlaceDoors(int height, int width, ref uint[,] theDungeonData)
+    {
+        for (int i = 1; i < height - 1; i++) //for all non-border cells
+        {
+            for (int j = 1; j < width - 1; j++)
+            {
+                if ((theDungeonData[i, j] & PERIMETER) == PERIMETER) // if it is a preimeter
+                {
+                    if (((theDungeonData[i + 1, j] & PERIMETER) == PERIMETER) && ((theDungeonData[i - 1, j] & PERIMETER) == PERIMETER)) // if above and below are perimeter
+                    {
+                        if (((theDungeonData[i, j + 1] & ROOM) == ROOM) && ((theDungeonData[i, j - 1] == NOTHING) || ((theDungeonData[i, j - 1] & ROOM) == ROOM))) // sides must be room/room or room/nil
+                        {
+                            ChancePutDoor(i, j, ref theDungeonData);
+                        }
+                        else if (((theDungeonData[i, j - 1] & ROOM) == ROOM) && ((theDungeonData[i, j + 1] == NOTHING) || ((theDungeonData[i, j + 1] & ROOM) == ROOM)))
+                        {
+                            ChancePutDoor(i, j, ref theDungeonData);
+                        }
+                    }
+                    else if (((theDungeonData[i, j + 1] & PERIMETER) == PERIMETER) && ((theDungeonData[i, j - 1] & PERIMETER) == PERIMETER)) // if both sides are perimeter
+                    {
+                        if (((theDungeonData[i + 1, j] & ROOM) == ROOM) && ((theDungeonData[i - 1, j] == NOTHING) || ((theDungeonData[i - 1, j] & ROOM) == ROOM))) // sides must be room/room or room/nil
+                        {
+                            ChancePutDoor(i, j, ref theDungeonData);
+                        }
+                        else if (((theDungeonData[i - 1, j] & ROOM) == ROOM) && ((theDungeonData[i + 1, j] == NOTHING) || ((theDungeonData[i + 1, j] & ROOM) == ROOM)))
+                        {
+                            ChancePutDoor(i, j, ref theDungeonData);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void ChancePutDoor(int i, int j, ref uint[,] theDungeonData)
+    {
+       // if (Random.value < DOOR_CHANCE)
+       // {
+            theDungeonData[i, j] = BLOCKED | DOOR;
+       // }
+    }
 
     private void PlaceStairs(int height, int width, ref uint[,] theDungeonData)
     {
@@ -133,7 +180,7 @@ public class GenerateDungeon : MonoBehaviour {
         }
         theDungeonData[y1, x1] = theDungeonData[y1, x1] | STAIR_UP | BLOCKED;
         theDungeonData[y1 + 1, x1] = theDungeonData[y1 + 1, x1] | STAIR_UP | BLOCKED;
-        theDungeonData[y1 + 2, x1] = theDungeonData[y1 + 1, x1] | DOOR | BLOCKED;
+        theDungeonData[y1 + 2, x1] = theDungeonData[y1 + 2, x1] | DOOR | BLOCKED;
         Debug.Log("Stairs Placed");
     }
 
