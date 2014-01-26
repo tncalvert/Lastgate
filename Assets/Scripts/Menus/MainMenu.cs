@@ -13,9 +13,7 @@ public class MainMenu : MonoBehaviour {
     /// 2 = setup server
     /// </summary>
     private uint screen;
-    private string typeName = "";
     private string gameName = "";
-    private string findGameTypeName = "";
     public NetworkManager networkManager;
 
     void Awake()
@@ -41,10 +39,8 @@ public class MainMenu : MonoBehaviour {
         }
         else if (screen == 1)
         {
-            GUI.Label(new Rect(Screen.width - 460, Screen.height - 95, 50, 25), "Game Name");
-            findGameTypeName = GUI.TextField(new Rect(Screen.width - 400, Screen.height - 95, 100, 25), findGameTypeName);
             if (GUI.Button(new Rect(Screen.width - 400, Screen.height - 60, 100, 50), "Refresh Hosts"))
-                networkManager.RefreshHostList(findGameTypeName);
+                networkManager.RefreshHostList();
 
             if (networkManager.hostList != null)
             {
@@ -69,14 +65,15 @@ public class MainMenu : MonoBehaviour {
             
             if (!Network.isServer && !Network.isClient)
             {
-                GUI.Label(new Rect(Screen.width / 2 - 55, Screen.height / 4, 50, 25), "Game Name");
-                typeName = GUI.TextField(new Rect(Screen.width / 2, Screen.height / 4, 200, 25), typeName);
-                GUI.Label(new Rect(Screen.width / 2 - 55, Screen.height / 4 + 35, 50, 25), "World Name");
+                GUIStyle style = new GUIStyle();
+                style.normal.textColor = Color.black;
+
+                GUI.Label(new Rect(Screen.width / 2 - 75, Screen.height / 4 + 35, 50, 25), "World Name", style);
                 gameName = GUI.TextField(new Rect(Screen.width / 2, Screen.height / 4 + 35, 200, 25), gameName);
 
 
                 if (GUI.Button(new Rect(Screen.width / 2 - 55, Screen.height / 4 + 75, 100, 50), "Create"))
-                    networkManager.StartServer(typeName, gameName);
+                    networkManager.StartServer(gameName);
             }
             else if (Network.isServer)
             {

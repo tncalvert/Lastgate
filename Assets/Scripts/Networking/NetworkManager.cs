@@ -4,7 +4,7 @@ using System.Collections;
 public class NetworkManager : MonoBehaviour
 {
     //private string gameName = "Lastgate World 1";
-    //private string typeName = "Lastgate";
+    private string typeName = "Lastgate";
     private int maxConnections = 25;
     private int port = 25000;
     public HostData[] hostList;
@@ -58,7 +58,7 @@ public class NetworkManager : MonoBehaviour
     // Starts a server at
     // PORT: 25000
     // CONNECTIONS: 25
-    public void StartServer(string typeName, string gameName)
+    public void StartServer(string gameName)
     {
         Network.InitializeServer(maxConnections, port, !Network.HavePublicAddress());
         MasterServer.RegisterHost(typeName, gameName);
@@ -82,7 +82,7 @@ public class NetworkManager : MonoBehaviour
     //************************************
 
     // Gets updated host list
-    public void RefreshHostList(string typeName)
+    public void RefreshHostList()
     {
         MasterServer.RequestHostList(typeName);
     }
@@ -116,7 +116,7 @@ public class NetworkManager : MonoBehaviour
 		Debug.Log("Connected to Server");
 
 		// Create character
-		Network.Instantiate(localPlayer, new Vector3(0,0,0), Quaternion.identity, 0);
+		Network.Instantiate(magePrefab, new Vector3(0,0,0), Quaternion.identity, 0);
 
 //		// Create others characters
 //		for (int i = 0; i < Network.connections.Length; i++) {
