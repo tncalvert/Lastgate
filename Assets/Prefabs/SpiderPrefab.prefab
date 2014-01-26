@@ -11,9 +11,10 @@ GameObject:
   - 148: {fileID: 14800000}
   - 212: {fileID: 21200000}
   - 95: {fileID: 9500000}
-  - 114: {fileID: 11400000}
-  - 50: {fileID: 5000000}
+  - 114: {fileID: 11400002}
   - 61: {fileID: 6100000}
+  - 114: {fileID: 11400004}
+  - 50: {fileID: 5000000}
   m_Layer: 0
   m_Name: SpiderPrefab
   m_TagString: Untagged
@@ -56,7 +57,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .5, y: .5}
+  m_Size: {x: .25, y: .25}
   m_Center: {x: 0, y: 0}
 --- !u!95 &9500000
 Animator:
@@ -72,7 +73,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_AnimatePhysics: 0
   m_HasTransformHierarchy: 1
---- !u!114 &11400000
+--- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -80,7 +81,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f10178777a7f2b14f8258a19489805e2, type: 3}
+  m_Script: {fileID: 11500000, guid: e69c01ce5f20ece419bacae76c8af1d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a7d666d2df90ca4c948bc1a2ff435f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!148 &14800000
