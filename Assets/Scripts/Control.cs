@@ -9,6 +9,7 @@ public class Control : MonoBehaviour {
     private Animator animator;
     private List<KeyCode> Horizontal;
     private List<KeyCode> Vertical;
+    private int previousDirection;
 
 	// Use this for initialization
     void Awake()
@@ -16,6 +17,15 @@ public class Control : MonoBehaviour {
         animator = GetComponent<Animator>();
         Horizontal = new List<KeyCode>();
         Vertical = new List<KeyCode>();
+        previousDirection = 3;
+
+        if (networkView.isMine)
+        {
+            // Camera follows this
+            Camera cam = Camera.main;
+            CameraFollowScript camScript = cam.GetComponent<CameraFollowScript>();
+            camScript.target = transform;       
+        }
     }
 
 	void Start () {
@@ -29,12 +39,14 @@ public class Control : MonoBehaviour {
             // Check new input
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
+                previousDirection = animator.GetInteger("Direction");
                 animator.SetBool("Moving", true);
                 animator.SetInteger("Direction", 2);
                 Horizontal.Add(KeyCode.LeftArrow);
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
+                previousDirection = animator.GetInteger("Direction");
                 animator.SetBool("Moving", true);
                 animator.SetInteger("Direction", 0);
                 Horizontal.Add(KeyCode.RightArrow);
@@ -42,12 +54,14 @@ public class Control : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                previousDirection = animator.GetInteger("Direction");
                 animator.SetBool("Moving", true);
                 animator.SetInteger("Direction", 1);
                 Vertical.Add(KeyCode.UpArrow);
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
+                previousDirection = animator.GetInteger("Direction");
                 animator.SetBool("Moving", true);
                 animator.SetInteger("Direction", 3);
                 Vertical.Add(KeyCode.DownArrow);
@@ -57,18 +71,26 @@ public class Control : MonoBehaviour {
             if (Input.GetKeyUp(KeyCode.LeftArrow))
             {
                 Horizontal.RemoveAll(x => x == KeyCode.LeftArrow);
+                if(previousDirection != 2)
+                    animator.SetInteger("Direction", previousDirection);
             }
             if (Input.GetKeyUp(KeyCode.RightArrow))
             {
                 Horizontal.RemoveAll(x => x == KeyCode.RightArrow);
+                if (previousDirection != 0)
+                    animator.SetInteger("Direction", previousDirection);
             }
             if (Input.GetKeyUp(KeyCode.UpArrow))
             {
                 Vertical.RemoveAll(x => x == KeyCode.UpArrow);
+                if (previousDirection != 1)
+                    animator.SetInteger("Direction", previousDirection);
             }
             if (Input.GetKeyUp(KeyCode.DownArrow))
             {
                 Vertical.RemoveAll(x => x == KeyCode.DownArrow);
+                if (previousDirection != 3)
+                    animator.SetInteger("Direction", previousDirection);
             }
 
             // Apply movement

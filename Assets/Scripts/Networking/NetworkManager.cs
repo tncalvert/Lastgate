@@ -58,13 +58,13 @@ public class NetworkManager : MonoBehaviour
             if (GUI.Button(new Rect(Screen.width / 2 - 120, Screen.height / 2 - 25, 100, 50), "Warrior"))
             {
                 pickedChar = true;
-                Network.Instantiate(dwarfPrefab, new Vector3(0, 0, 0), Quaternion.identity, 0);
+                Network.Instantiate(dwarfPrefab, new Vector3(-1.9f, -0.4f, 0), Quaternion.identity, 0);
             }
 
             if (GUI.Button(new Rect(Screen.width / 2 + 20, Screen.height / 2 - 25, 100, 50), "Mage"))
             {
                 pickedChar = true;
-                Network.Instantiate(magePrefab, new Vector3(0, 0, 0), Quaternion.identity, 0);
+                Network.Instantiate(magePrefab, new Vector3(-1.9f, -0.4f, 0), Quaternion.identity, 0);
             }
         }
     }
