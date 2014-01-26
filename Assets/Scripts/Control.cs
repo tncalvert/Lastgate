@@ -32,10 +32,10 @@ public class Control : MonoBehaviour {
 
 			if (Input.GetKey ("up")) {
                 animator.SetInteger("Direction", 1);
-				transform.position += new Vector3 (0f, 0.025f);
+				transform.position += new Vector3 (0f, 0.013f);
 			} else if (Input.GetKey ("down")) {
                 animator.SetInteger("Direction", 3);
-				transform.position += new Vector3 (0f, -0.025f);
+				transform.position += new Vector3 (0f, -0.013f);
 			}
 
             if (Input.GetKeyDown(KeyCode.LeftArrow) ||
