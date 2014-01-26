@@ -9,6 +9,13 @@ public class NetworkManager : MonoBehaviour
     private int port = 25000;
     public HostData[] hostList;
 
+    // Prefabs
+    public GameObject dwarfPrefab;
+    public GameObject magePrefab;
+    public GameObject spiderPrefab;
+    public GameObject slimePrefab;
+    public GameObject fireballPrefab;
+
 	public Transform localPlayer;
 	public Transform remotePlayer;
 
