@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Control : MonoBehaviour {
+	public Vector2 speed = new Vector2(50, 50);
+	private Vector2 movement;
 
     private Animator animator;
     private List<KeyCode> Horizontal;
@@ -24,7 +26,6 @@ public class Control : MonoBehaviour {
 	void Update () {
 
 		if (networkView.isMine || (!Network.isServer && !Network.isClient /* Not networked at all */)) {
-
             // Check new input
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
@@ -61,7 +62,6 @@ public class Control : MonoBehaviour {
             {
                 Horizontal.RemoveAll(x => x == KeyCode.RightArrow);
             }
-
             if (Input.GetKeyUp(KeyCode.UpArrow))
             {
                 Vertical.RemoveAll(x => x == KeyCode.UpArrow);
@@ -102,4 +102,5 @@ public class Control : MonoBehaviour {
 
 		// Send update to network
 	}
+
 }
