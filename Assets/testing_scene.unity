@@ -139,7 +139,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 252722273}
   - 212: {fileID: 252722272}
-  - 50: {fileID: 252722270}
   - 61: {fileID: 252722271}
   m_Layer: 0
   m_Name: Wall1Prefab
@@ -148,22 +147,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!50 &252722270
-Rigidbody2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 5000000, guid: c8e4eed48213ce8499d60f92567da561,
-    type: 2}
-  m_PrefabInternal: {fileID: 1545349923}
-  m_GameObject: {fileID: 252722269}
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: .0500000007
-  m_GravityScale: 1
-  m_FixedAngle: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
 --- !u!61 &252722271
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -223,6 +206,8 @@ GameObject:
   - 212: {fileID: 289129158}
   - 95: {fileID: 289129157}
   - 114: {fileID: 289129156}
+  - 50: {fileID: 289129155}
+  - 61: {fileID: 289129154}
   m_Layer: 0
   m_Name: SpiderPrefab
   m_TagString: Untagged
@@ -230,6 +215,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!61 &289129154
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6100000, guid: 285d32c3b05eb37479620b02c8a00095,
+    type: 2}
+  m_PrefabInternal: {fileID: 1894940421}
+  m_GameObject: {fileID: 289129153}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: .5, y: .5}
+  m_Center: {x: 0, y: 0}
+--- !u!50 &289129155
+Rigidbody2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 5000000, guid: 285d32c3b05eb37479620b02c8a00095,
+    type: 2}
+  m_PrefabInternal: {fileID: 1894940421}
+  m_GameObject: {fileID: 289129153}
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: .0500000007
+  m_GravityScale: 0
+  m_FixedAngle: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
 --- !u!114 &289129156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1024,7 +1037,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1923069021}
   - 212: {fileID: 1923069020}
-  - 50: {fileID: 1923069018}
   - 61: {fileID: 1923069019}
   m_Layer: 0
   m_Name: Wall2Prefab
@@ -1033,22 +1045,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!50 &1923069018
-Rigidbody2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 5000000, guid: d9a7ffbc70a65c6409fcfd95a68bdae9,
-    type: 2}
-  m_PrefabInternal: {fileID: 755942319}
-  m_GameObject: {fileID: 1923069017}
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: .0500000007
-  m_GravityScale: 1
-  m_FixedAngle: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
 --- !u!61 &1923069019
 BoxCollider2D:
   m_ObjectHideFlags: 0
