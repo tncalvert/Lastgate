@@ -19,10 +19,13 @@ public class NetworkManager : MonoBehaviour
 	public Transform localPlayer;
 	public Transform remotePlayer;
 
+    private bool pickedChar;
+
     // Use this for initialization
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+        pickedChar = false;
     }
 
     // Update is called once per frame
@@ -49,6 +52,21 @@ public class NetworkManager : MonoBehaviour
         //        }
         //    }
         //}
+
+        if (Network.isClient && !pickedChar)
+        {
+            if (GUI.Button(new Rect(Screen.width / 2 - 120, Screen.height / 2 - 25, 100, 50), "Warrior"))
+            {
+                pickedChar = true;
+                Network.Instantiate(dwarfPrefab, new Vector3(0, 0, 0), Quaternion.identity, 0);
+            }
+
+            if (GUI.Button(new Rect(Screen.width / 2 + 20, Screen.height / 2 - 25, 100, 50), "Mage"))
+            {
+                pickedChar = true;
+                Network.Instantiate(magePrefab, new Vector3(0, 0, 0), Quaternion.identity, 0);
+            }
+        }
     }
 
     // **********************************
@@ -116,7 +134,7 @@ public class NetworkManager : MonoBehaviour
 		Debug.Log("Connected to Server");
 
 		// Create character
-		Network.Instantiate(magePrefab, new Vector3(0,0,0), Quaternion.identity, 0);
+		//Network.Instantiate(magePrefab, new Vector3(0,0,0), Quaternion.identity, 0);
 
 //		// Create others characters
 //		for (int i = 0; i < Network.connections.Length; i++) {
@@ -129,6 +147,26 @@ public class NetworkManager : MonoBehaviour
     void OnFailedToConnect(NetworkConnectionError error)
     {
         Debug.Log("Failed to connect to server: " + error.ToString());
+    }
+
+    void OnDisconnectedFromServer(NetworkDisconnection disc)
+    {
+        if (Network.isServer)
+        {
+            // Delete character from disconnected player
+            
+        }
+    }
+
+    void OnPlayerConnected(NetworkPlayer player)
+    {
+        Debug.Log("Player connected");
+    }
+
+    void OnPlayerDisconnected(NetworkPlayer player)
+    {
+        Debug.Log("Player disconnected");
+        Network.DestroyPlayerObjects(player);
     }
 
 }
