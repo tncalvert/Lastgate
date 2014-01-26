@@ -386,13 +386,18 @@ Transition:
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
+<<<<<<< Updated upstream
 --- !u!1101 &110118932
+=======
+--- !u!1101 &110120379
+>>>>>>> Stashed changes
 Transition:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_SrcState: {fileID: 110224289}
+<<<<<<< Updated upstream
   m_DstState: {fileID: 110266668}
   m_TransitionDuration: 0
   m_TransitionOffset: 0
@@ -403,6 +408,14 @@ Transition:
     m_ExitTime: 1
   - m_ConditionMode: 6
     m_ConditionEvent: Direction
+=======
+  m_DstState: {fileID: 110224289}
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 5
+    m_ConditionEvent: 
+>>>>>>> Stashed changes
     m_EventTreshold: 0
     m_ExitTime: 1
   m_Atomic: 1
@@ -1008,13 +1021,18 @@ Transition:
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
+<<<<<<< Updated upstream
 --- !u!1101 &110186225
+=======
+--- !u!1101 &110187622
+>>>>>>> Stashed changes
 Transition:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_SrcState: {fileID: 110224289}
+<<<<<<< Updated upstream
   m_DstState: {fileID: 110249172}
   m_TransitionDuration: 0
   m_TransitionOffset: 0
@@ -1022,6 +1040,15 @@ Transition:
   - m_ConditionMode: 6
     m_ConditionEvent: Direction
     m_EventTreshold: 1
+=======
+  m_DstState: {fileID: 110224289}
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 5
+    m_ConditionEvent: 
+    m_EventTreshold: 0
+>>>>>>> Stashed changes
     m_ExitTime: 1
   m_Atomic: 1
   m_Solo: 0
@@ -1238,7 +1265,11 @@ State:
   m_Motions:
   - {fileID: 7400000, guid: 92820a7aaf6e4e14189b132ba6a39ad1, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
+<<<<<<< Updated upstream
   m_Position: {x: 324, y: 156, z: 0}
+=======
+  m_Position: {x: 288, y: 132, z: 0}
+>>>>>>> Stashed changes
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -1405,11 +1436,17 @@ StateMachine:
     data:
       first: {fileID: 110224289}
       second:
+<<<<<<< Updated upstream
       - {fileID: 110118932}
       - {fileID: 110170169}
       - {fileID: 110186225}
       - {fileID: 110146050}
       - {fileID: 110155891}
+=======
+      - {fileID: 110131787}
+      - {fileID: 110180629}
+      - {fileID: 110195701}
+>>>>>>> Stashed changes
     data:
       first: {fileID: 110266668}
       second:

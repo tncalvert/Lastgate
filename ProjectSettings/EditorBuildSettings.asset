@@ -6,6 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/splash_screen.unity
+  - enabled: 1
     path: Assets/mainmenu.unity
   - enabled: 1
     path: Assets/lastgate.unity
