@@ -4,18 +4,28 @@ using System.Collections;
 public class NetworkManager : MonoBehaviour
 {
     //private string gameName = "Lastgate World 1";
-    //private string typeName = "Lastgate";
+    private string typeName = "Lastgate";
     private int maxConnections = 25;
     private int port = 25000;
     public HostData[] hostList;
 
+    // Prefabs
+    public GameObject dwarfPrefab;
+    public GameObject magePrefab;
+    public GameObject spiderPrefab;
+    public GameObject slimePrefab;
+    public GameObject fireballPrefab;
+
 	public Transform localPlayer;
 	public Transform remotePlayer;
+
+    private bool pickedChar;
 
     // Use this for initialization
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+        pickedChar = false;
     }
 
     // Update is called once per frame
@@ -42,6 +52,21 @@ public class NetworkManager : MonoBehaviour
         //        }
         //    }
         //}
+
+        if (Network.isClient && !pickedChar)
+        {
+            if (GUI.Button(new Rect(Screen.width / 2 - 120, Screen.height / 2 - 25, 100, 50), "Warrior"))
+            {
+                pickedChar = true;
+                Network.Instantiate(dwarfPrefab, new Vector3(0, 0, 0), Quaternion.identity, 0);
+            }
+
+            if (GUI.Button(new Rect(Screen.width / 2 + 20, Screen.height / 2 - 25, 100, 50), "Mage"))
+            {
+                pickedChar = true;
+                Network.Instantiate(magePrefab, new Vector3(0, 0, 0), Quaternion.identity, 0);
+            }
+        }
     }
 
     // **********************************
@@ -51,7 +76,7 @@ public class NetworkManager : MonoBehaviour
     // Starts a server at
     // PORT: 25000
     // CONNECTIONS: 25
-    public void StartServer(string typeName, string gameName)
+    public void StartServer(string gameName)
     {
         Network.InitializeServer(maxConnections, port, !Network.HavePublicAddress());
         MasterServer.RegisterHost(typeName, gameName);
@@ -75,7 +100,7 @@ public class NetworkManager : MonoBehaviour
     //************************************
 
     // Gets updated host list
-    public void RefreshHostList(string typeName)
+    public void RefreshHostList()
     {
         MasterServer.RequestHostList(typeName);
     }
@@ -109,7 +134,7 @@ public class NetworkManager : MonoBehaviour
 		Debug.Log("Connected to Server");
 
 		// Create character
-		Network.Instantiate(localPlayer, new Vector3(0,0,0), Quaternion.identity, 0);
+		//Network.Instantiate(magePrefab, new Vector3(0,0,0), Quaternion.identity, 0);
 
 //		// Create others characters
 //		for (int i = 0; i < Network.connections.Length; i++) {
@@ -122,6 +147,26 @@ public class NetworkManager : MonoBehaviour
     void OnFailedToConnect(NetworkConnectionError error)
     {
         Debug.Log("Failed to connect to server: " + error.ToString());
+    }
+
+    void OnDisconnectedFromServer(NetworkDisconnection disc)
+    {
+        if (Network.isServer)
+        {
+            // Delete character from disconnected player
+            
+        }
+    }
+
+    void OnPlayerConnected(NetworkPlayer player)
+    {
+        Debug.Log("Player connected");
+    }
+
+    void OnPlayerDisconnected(NetworkPlayer player)
+    {
+        Debug.Log("Player disconnected");
+        Network.DestroyPlayerObjects(player);
     }
 
 }

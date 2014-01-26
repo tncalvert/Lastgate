@@ -1,8 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\NetworkManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SpiderSpawner.cs">
     <Files>
-      <File FileName="Assets\Scripts\NetworkManager.cs" Line="84" Column="22" />
+      <File FileName="Assets\Scripts\Control.cs" Line="70" Column="1" />
+      <File FileName="Assets\Scripts\GameEntities\Characters\Spider.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameEntities\Characters\GameCharacter.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameEntities\Characters\Fighter.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameEntities\Characters\Wizard.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Spells\Spell.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyAI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Networking\NetworkManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Health.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Menus\MainMenu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SpiderSpawner.cs" Line="15" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

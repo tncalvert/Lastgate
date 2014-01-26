@@ -7,5 +7,6 @@ public class Fighter : GameCharacter
     void Awake()
     {
         init();
+		Type = "Dwarf";
     }
 }

@@ -20,6 +20,7 @@ public class GameCharacter : MonoBehaviour {
     public uint Level { get; set; }
     public uint Experience { get; set; }
     public uint ExperienceToNextLevel { get; set; }
+	public bool isEnemy { get; set; }
 
     // Calculated Stats
     public uint BaseHealth { get; set; }
@@ -31,6 +32,9 @@ public class GameCharacter : MonoBehaviour {
     public uint ArmorPoints { get; set; }
     public float BaseDamage { get; set; }
     public uint ItemLimit { get; set; }
+
+	//lol
+	public uint Kills { get; set; }
 
     // Items
     public Weapon Weapon { get; set; }
@@ -53,6 +57,8 @@ public class GameCharacter : MonoBehaviour {
         Experience = 0;
         ExperienceToNextLevel = 1000;
 
+		isEnemy = false;
+
         BaseHealth = 25;
         MaxHealth = 25;
         Health = 25;
@@ -69,6 +75,9 @@ public class GameCharacter : MonoBehaviour {
         Inventory = new List<GameItem>();
 
         Type = "GameCharacter";
+
+		// lol
+		Kills = 0;
 
         updateStats();
     }
@@ -90,16 +99,35 @@ public class GameCharacter : MonoBehaviour {
         MaxActionPoints = BaseActionPoints + maxapdiff;
 
         ArmorPoints = 10 + (Armor != null ? Armor.ArmorValue : 0);
-        BaseDamage = Strength + (Agility / 4);
+        BaseDamage = (Strength + (Agility / 4)) / 2;
         ItemLimit = System.Math.Min(50, Strength * 5);
     }
 
     //**********************
     // Actions
     //**********************
-    public void Attack(Weapon weapon)
+    public void Attack()
     {
-        // Do some stuff
+        // TODO: Calculate using weapon
+		Collider2D[] hits = Physics2D.OverlapCircleAll (new Vector2(transform.position.x, transform.position.y), 0.2f);
+		foreach (Collider2D hit in hits) {
+			GameCharacter victim = hit.gameObject.GetComponent<GameCharacter>();
+
+			if (victim == this) continue; // Don't attack yourself!
+			
+            if ((Type == "Mage" || Type == "Dwarf") && (victim.Type == "Mage" || victim.Type == "Dwarf") /* TODO: add PvP flag */)
+                continue;
+
+			Debug.Log ("Hit! from " + this.Type);
+
+
+            uint damage = (uint)(BaseDamage + (Weapon != null ? Weapon.Damage : 0));
+			bool dead = victim.RemoveHealth(damage); //TODO: Refine damage calculation
+
+			if (dead) {
+				Kills++;
+			}
+		}
     }
 
     //**********************
@@ -110,14 +138,19 @@ public class GameCharacter : MonoBehaviour {
         Health = System.Math.Min(MaxHealth, Health + amount);
     }
 
-    public void RemoveHealth(uint amount)
+    public bool RemoveHealth(uint amount)
     {
-        Health -= amount;
+		int newHealth = (int)Health - (int)amount;
+		Health = (uint)System.Math.Max (newHealth, 0);
         if (Health <= 0)
         {
             // DIE!!
-            GUI.Label(new Rect((float)Screen.width / 1.75f, (float)Screen.height / 1.75f, 200, 100), "YOU DIED (FIX THIS)");
+			GUI.Label(new Rect((float)Screen.width / 1.75f, (float)Screen.height / 1.75f, 200, 100), "YOU DIED (FIX THIS)");
+
+			Network.Destroy(this.gameObject);
+			return true;
         }
+		return false;
     }
 
     //**********************
