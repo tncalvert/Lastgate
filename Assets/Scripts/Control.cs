@@ -111,6 +111,9 @@ public class Control : MonoBehaviour {
             if (Horizontal.Count == 0 && Vertical.Count == 0)
                 animator.SetBool("Moving", false);
 
+			if (Input.GetKey(KeyCode.Space)) {
+				this.gameObject.GetComponent<GameCharacter>().Attack();
+			}
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 animator.SetBool("Attack", true);
