@@ -9,7 +9,7 @@ public class GenerateDungeon : MonoBehaviour {
     const uint BLOCKED = 0x00000001;
     const uint ROOM = 0x00000002;
     const uint CORRIDOR = 0x00000004;
-    //                 0x00000008;
+    // this is below       0x00000008;
     const uint PERIMETER = 0x00000010;
     const uint ENTRANCE = 0x00000020;
     const uint ROOM_ID = 0x0000FFC0;
@@ -41,12 +41,12 @@ public class GenerateDungeon : MonoBehaviour {
     const float SIZE_VARIATION = 0.2F;
     int CROSS_SHAPE_FACTOR = 5;
     int[] roomSizeTable = new int[10]{ 4, 6, 8, 10, 14, 18, 24, 30, 40, 50 };
-    const int PERCENT_SPACE_ROOMS = 8;
-    const int DOOR_DENSITY = 3;
+    const int PERCENT_SPACE_ROOMS = 3;
+    const float DOOR_CHANCE = 0.11F;
 
 	// Use this for initialization
 	void Start () {
-        MakeDungeon(1, 0, 0);
+        MakeDungeon(2, 0, 0);
     }
 
     // errors to check for:
@@ -71,15 +71,17 @@ public class GenerateDungeon : MonoBehaviour {
         PlaceRooms(roomSizeTable[roomSize], height, width, ref theDungeonData);
         PlaceStairs(height, width, ref theDungeonData);
         SetPerimeters(height, width, ref theDungeonData);
-        //PlaceDoors(height, width, ref theDungeonData);
+        PlaceDoors(height, width, ref theDungeonData);
+        PathToEntrance(height, width, ref theDungeonData);
+        MakeCorridors(size, height, width, ref theDungeonData);
 
-        char[] debugString = new char[width];
+        //char[] debugString = new char[width];
         Texture2D debugTexture = new Texture2D(width, height);
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
-                debugString[j] = (char)(theDungeonData[i, j] + 0x30);
+                //debugString[j] = (char)(theDungeonData[i, j] + 0x30);
                 if (theDungeonData[i, j] == NOTHING)
                 {
                     debugTexture.SetPixel(j, i, Color.black);
@@ -108,6 +110,182 @@ public class GenerateDungeon : MonoBehaviour {
 
         return;
 	}
+
+    private void PathToEntrance(int height, int width, ref uint[,] theDungeonData)
+    {
+        int i = 0;
+        int j = 0;
+
+        for (int ii = 0; ii < height; ii++)
+        {
+            for (int jj = 0; jj < width; jj++)
+            {
+                if ((theDungeonData[ii, jj] & ENTRANCE) == ENTRANCE)
+                {
+                    i = ii;
+                    j = jj;
+                }
+            }
+        }
+
+        FindPathToCorridor(i - 1, j, height, width, theDungeonData);
+    }
+
+    private void FindPathToCorridor(int i, int j, int height, int width, uint[,] theDungeonData)
+    {
+        int ii = i;
+        while (((theDungeonData[ii, j] & BLOCKED) != BLOCKED) && (ii < height))
+        {
+            theDungeonData[ii, j] = theDungeonData[ii, j] | CORRIDOR;
+            ii--;
+        }
+    }
+
+    private void MakeCorridors(int size, int height, int width, ref uint[,] theDungeonData)
+    {
+        //while (DoorsNotConnected(height, width, ref theDungeonData))
+        for (int k = 0; k < (sizeTable[size] / 2); k++)
+        {
+            for (int i = (int)(Random.value * height); i < height; i++)
+            {
+                for (int j = (int)(Random.value * height); j < width; j++)
+                {
+                    if (((theDungeonData[i, j] & DOOR) == DOOR) && ((theDungeonData[i, j] & CONNECTED) != CONNECTED))
+                    {
+                        PlaceCorridor(i, j, height, width, ref theDungeonData);
+                    }
+                }
+            }
+        }
+    }
+
+    private void PlaceCorridor(int i, int j, int height, int width, ref uint[,] theDungeonData)
+    {
+        if ((theDungeonData[i + 1, j] & ROOM) == ROOM)
+        {
+            SearchHorizontal(i - 1, j, width, ref theDungeonData);
+        }
+        else if ((theDungeonData[i - 1, j] & ROOM) == ROOM)
+        {
+            SearchHorizontal(i + 1, j, width, ref theDungeonData);
+        }
+        else if ((theDungeonData[i, j + 1] & ROOM) == ROOM)
+        {
+            SearchVertical(i, j - 1, height, ref theDungeonData);
+        }
+        else if ((theDungeonData[i, j - 1] & ROOM) == ROOM)
+        {
+            SearchVertical(i, j + 1, height, ref theDungeonData);
+        }
+    }
+
+    private void SearchVertical(int i, int j, int height, ref uint[,] theDungeonData)
+    {
+        bool up = false;
+        bool down = false;
+        for (int ii = 0; ii < i; ii++)
+        {
+            if (((theDungeonData[ii, j] & DOOR) == DOOR) || ((theDungeonData[ii, j] & CORRIDOR) == CORRIDOR))
+            {
+                down = true;
+            }
+            else if ((theDungeonData[ii, j] & PERIMETER) == PERIMETER)
+            {
+                down = false;
+            }
+        }
+        for (int ii = height - 1; ii > i; ii--)
+        {
+            if (((theDungeonData[ii, j] & DOOR) == DOOR) || ((theDungeonData[ii, j] & CORRIDOR) == CORRIDOR))
+            {
+                up = true;
+            }
+            else if ((theDungeonData[ii, j] & PERIMETER) == PERIMETER)
+            {
+                up = false;
+            }
+        }
+        if (down)
+        {
+            int ii = i;
+            while (!((theDungeonData[ii, j] & DOOR) == DOOR) && !((theDungeonData[ii, j] & CORRIDOR) == CORRIDOR))
+            {
+                theDungeonData[ii, j] = theDungeonData[ii, j] | CORRIDOR;
+                ii--;
+            }
+        }
+        if (up)
+        {
+            int ii = i;
+            while (!((theDungeonData[ii, j] & DOOR) == DOOR) && !((theDungeonData[ii, j] & CORRIDOR) == CORRIDOR))
+            {
+                theDungeonData[ii, j] = theDungeonData[ii, j] | CORRIDOR;
+                ii++;
+            }
+        }
+    }
+
+    private void SearchHorizontal(int i, int j, int width, ref uint[,] theDungeonData)
+    {
+        bool left = false;
+        bool right = false;
+        for (int jj = 0; jj < j; jj++)
+        {
+            if (((theDungeonData[i, jj] & DOOR) == DOOR)  || ((theDungeonData[i, jj] & CORRIDOR) == CORRIDOR))
+            {
+                left = true;
+            }
+            else if ((theDungeonData[i, jj] & PERIMETER) == PERIMETER)
+            {
+                left = false;
+            }
+        }
+        for (int jj = width - 1; jj > j; jj--)
+        {
+            if (((theDungeonData[i, jj] & DOOR) == DOOR) || ((theDungeonData[i, jj] & CORRIDOR) == CORRIDOR))
+            {
+                right = true;
+            }
+            else if ((theDungeonData[i, jj] & PERIMETER) == PERIMETER)
+            {
+                right = false;
+            }
+        }
+        if (left)
+        {
+            int jj = j;
+            while (!((theDungeonData[i, jj] & DOOR) == DOOR) && !((theDungeonData[i, jj] & CORRIDOR) == CORRIDOR))
+            {
+                theDungeonData[i, jj] = theDungeonData[i, jj] | CORRIDOR;
+                jj--;
+            }
+        }
+        if (right)
+        {
+            int jj = j;
+            while (!((theDungeonData[i, jj] & DOOR) == DOOR) && !((theDungeonData[i, jj] & CORRIDOR) == CORRIDOR))
+            {
+                theDungeonData[i, jj] = theDungeonData[i, jj] | CORRIDOR;
+                jj++;
+            }
+        }
+    }
+
+    private bool DoorsNotConnected(int height, int width, ref uint[,] theDungeonData)
+    {
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                if (((theDungeonData[i, j] & DOOR) == DOOR) && ((theDungeonData[i, j] & CONNECTED) != CONNECTED))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     private void PlaceDoors(int height, int width, ref uint[,] theDungeonData)
     {
@@ -146,10 +324,10 @@ public class GenerateDungeon : MonoBehaviour {
 
     private void ChancePutDoor(int i, int j, ref uint[,] theDungeonData)
     {
-       // if (Random.value < DOOR_CHANCE)
-       // {
+        if (Random.value < DOOR_CHANCE)
+        {
             theDungeonData[i, j] = BLOCKED | DOOR;
-       // }
+        }
     }
 
     private void PlaceStairs(int height, int width, ref uint[,] theDungeonData)
@@ -161,8 +339,8 @@ public class GenerateDungeon : MonoBehaviour {
         while (worked == false)
         {
             worked = true;
-            y1 = ((int)(Random.value * (float)height));
-            x1 = ((int)(Random.value * (float)width));
+            y1 = ((int)(((Random.value * 0.5F) + 0.5F) * (float)height));
+            x1 = ((int)(((Random.value * 0.5F) + 0.5F) * (float)width));
             for (int i = (y1 - 2); i < (y1 + 5); i++)
             {
                 for (int j = (x1 - 1); j < (x1 + 2); j++)
@@ -178,9 +356,9 @@ public class GenerateDungeon : MonoBehaviour {
                 }
             }
         }
-        theDungeonData[y1, x1] = theDungeonData[y1, x1] | STAIR_UP | BLOCKED;
         theDungeonData[y1 + 1, x1] = theDungeonData[y1 + 1, x1] | STAIR_UP | BLOCKED;
-        theDungeonData[y1 + 2, x1] = theDungeonData[y1 + 2, x1] | DOOR | BLOCKED;
+        theDungeonData[y1 + 2, x1] = theDungeonData[y1 + 2, x1] | STAIR_UP | BLOCKED;
+        theDungeonData[y1, x1] = theDungeonData[y1, x1] | DOOR | ENTRANCE | BLOCKED;
         Debug.Log("Stairs Placed");
     }
 
@@ -237,25 +415,27 @@ public class GenerateDungeon : MonoBehaviour {
     {
         int yCenter = ((int)(Random.value * (float)(height - (roomSize / 2)))) + (roomSize / 2);
         int xCenter = ((int)(Random.value * (float)(width - (roomSize / 2)))) + (roomSize / 2);
+        int yRoomSize = (int)((Random.value - 0.5F) * ((float)sizeTable[roomSize]) * SIZE_VARIATION);
+        int xRoomSize = (int)((Random.value - 0.5F) * ((float)sizeTable[roomSize]) * SIZE_VARIATION);
 
-        for (int i = (yCenter - (roomSize / 2) - 2); i < (yCenter + (roomSize / 2) + 2); i++)
+        for (int i = (yCenter - (yRoomSize / 2) - 2); i < (yCenter + (yRoomSize / 2) + 2); i++)
         {
-            for (int j = (xCenter - (roomSize / 2) - 1); j < (xCenter + (roomSize / 2) + 1); j++)
+            for (int j = (xCenter - (xRoomSize / 2) - 1); j < (xCenter + (xRoomSize / 2) + 1); j++)
             {
                 if ((i >= height) || (j >= width) || (i < 0) || (j < 0))
                 {
                    return true;
                 }
-                else if ((theDungeonData[i, j] & BLOCKED) == BLOCKED)
+                else if (((theDungeonData[i, j] & BLOCKED) == BLOCKED) && ((theDungeonData[i, j] & ROOM) != ROOM))
                 {
                     return true;
                 }
             }
         }
 
-        for (int i = (yCenter - (roomSize / 2)); i < (yCenter + (roomSize / 2)); i++)
+        for (int i = (yCenter - (yRoomSize / 2)); i < (yCenter + (yRoomSize / 2)); i++)
         {
-            for (int j = (xCenter - (roomSize / 2)); j < (xCenter + (roomSize / 2)); j++)
+            for (int j = (xCenter - (xRoomSize / 2)); j < (xCenter + (xRoomSize / 2)); j++)
             {
                 theDungeonData[i, j] = BLOCK_ROOM;
             }

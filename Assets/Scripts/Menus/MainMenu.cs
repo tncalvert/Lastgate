@@ -39,7 +39,7 @@ public class MainMenu : MonoBehaviour {
         }
         else if (screen == 1)
         {
-            if (GUI.Button(new Rect(Screen.width - 400, Screen.height - 60, 100, 50), "Refresh Hosts"))
+            if (GUI.Button(new Rect(Screen.width - 400, Screen.height - 60, 100, 50), "Find Worlds"))
                 networkManager.RefreshHostList();
 
             if (networkManager.hostList != null)

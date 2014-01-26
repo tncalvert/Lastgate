@@ -11,6 +11,8 @@ public class Control : MonoBehaviour {
     private List<KeyCode> Vertical;
     private int previousDirection;
 
+    private bool canGoToDungeon;
+
 	// Use this for initialization
     void Awake()
     {
@@ -18,6 +20,7 @@ public class Control : MonoBehaviour {
         Horizontal = new List<KeyCode>();
         Vertical = new List<KeyCode>();
         previousDirection = 3;
+        canGoToDungeon = false;
 
         if (networkView.isMine)
         {
@@ -28,9 +31,38 @@ public class Control : MonoBehaviour {
         }
     }
 
-	void Start () {
-	
-	}
+    void Start()
+    {
+        if(networkView.isMine)
+            DontDestroyOnLoad(gameObject);
+    }
+
+    void OnGUI()
+    {
+        if (canGoToDungeon)
+        {
+            if (GUI.Button(new Rect(Screen.width / 2 - 110, Screen.height / 2 - 25, 100, 50), "Go to Dungeon"))
+            {
+                canGoToDungeon = false;
+                Application.LoadLevel("dungeon");
+                gameObject.transform.position = new Vector3(0, 0, 0);
+            }
+
+            if(GUI.Button(new Rect(Screen.width / 2 + 10, Screen.height / 2 - 25, 100, 50), "Stay here"))
+                canGoToDungeon = false;
+        }
+    }
+
+    void OnLevelWasLoaded(int level)
+    {
+        if (networkView.isMine)
+        {
+            // Camera follows this
+            Camera cam = Camera.main;
+            CameraFollowScript camScript = cam.GetComponent<CameraFollowScript>();
+            camScript.target = transform;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -142,6 +174,11 @@ public class Control : MonoBehaviour {
 
 		// Send update to network
 	}
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        canGoToDungeon = true;
+    }
 
     [RPC]
     public void UpdateAnimations(int dir, int att, int mv)
